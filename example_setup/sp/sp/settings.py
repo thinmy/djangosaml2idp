@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'ar249h_c(@5#x)ha_vou=4%plz*#!*l=+4c^jbo6wi%8z222hg'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -53,7 +51,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'sp.urls'
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -70,9 +67,7 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'sp.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -83,7 +78,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -103,7 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -116,7 +109,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -160,10 +152,10 @@ SAML_CONFIG = {
                 ],
             },
             'name_id_format': [NAMEID_FORMAT_EMAILADDRESS],
-            'authn_requests_signed': True,
-            'want_response_signed': True,
-            'want_assertions_signed': True,
-            'allow_unsolicited': True,
+            # 'authn_requests_signed': True,
+            # 'want_response_signed': True,
+            # 'want_assertions_signed': True,
+            # 'allow_unsolicited': True,
         },
     },
 
@@ -171,14 +163,14 @@ SAML_CONFIG = {
     'metadata': {
         'local': [os.path.join(os.path.join(os.path.join(BASE_DIR, 'sp'), 'saml2_config'), 'idp_metadata.xml')],
     },
-    # Signing
-    'key_file': BASE_DIR + '/certificates/private.key',
-    'cert_file': BASE_DIR + '/certificates/public.cert',
-    # Encryption
-    'encryption_keypairs': [{
-        'key_file': BASE_DIR + '/certificates/private.key',
-        'cert_file': BASE_DIR + '/certificates/public.cert',
-    }],
+    # # Signing
+    # 'key_file': BASE_DIR + '/certificates/private.key',
+    # 'cert_file': BASE_DIR + '/certificates/public.cert',
+    # # Encryption
+    # 'encryption_keypairs': [{
+    #     'key_file': BASE_DIR + '/certificates/private.key',
+    #     'cert_file': BASE_DIR + '/certificates/public.cert',
+    # }],
     'valid_for': 365 * 24,
 }
 
@@ -190,9 +182,9 @@ SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
     # SAML: DJANGO
     # Must also be present in attribute-maps!
-    'email': ('email', ),
-    'first_name': ('first_name', ),
-    'last_name': ('last_name', ),
-    'is_staff': ('is_staff', ),
-    'is_superuser':  ('is_superuser', ),
+    'email': ('email',),
+    'first_name': ('first_name',),
+    'last_name': ('last_name',),
+    'is_staff': ('is_staff',),
+    'is_superuser': ('is_superuser',),
 }

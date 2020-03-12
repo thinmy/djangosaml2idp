@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'w1#&b@*haty+1pmlw--ll9i!5z+d$e*5yxq0&cgo16e_vhd7r('
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -71,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'idp.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -81,7 +78,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -101,7 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -115,16 +110,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-      BASE_DIR + '/static/',
+    BASE_DIR + '/static/',
 )
-
 
 # pySAML2 IDP
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -156,7 +149,6 @@ LOGGING = {
         },
     }
 }
-
 
 # Everything above are default settings made by django-admin startproject
 # The following is added for djangosaml2idp IdP configuration.
@@ -191,23 +183,47 @@ SAML_IDP_CONFIG = {
                 ],
             },
             'name_id_format': [NAMEID_FORMAT_EMAILADDRESS, NAMEID_FORMAT_UNSPECIFIED],
-            'sign_response': True,
-            'sign_assertion': True,
-            'want_authn_requests_signed': True,
+            # 'sign_response': True,
+            # 'sign_assertion': True,
+            # 'want_authn_requests_signed': True,
         },
     },
 
-    # Signing
-    'key_file': BASE_DIR + '/certificates/private.key',
-    'cert_file': BASE_DIR + '/certificates/public.cert',
-    # Encryption
-    'encryption_keypairs': [{
-        'key_file': BASE_DIR + '/certificates/private.key',
-        'cert_file': BASE_DIR + '/certificates/public.cert',
-    }],
+    'metadata': {
+        'local': [os.path.join(os.path.join(os.path.join(BASE_DIR, 'idp'), 'saml2_config'), 'sp_metadata.xml')],
+    },
+
+    # # Signing
+    # 'key_file': BASE_DIR + '/certificates/private.key',
+    # 'cert_file': BASE_DIR + '/certificates/public.cert',
+    # # Encryption
+    # 'encryption_keypairs': [{
+    #     'key_file': BASE_DIR + '/certificates/private.key',
+    #     'cert_file': BASE_DIR + '/certificates/public.cert',
+    # }],
     'valid_for': 365 * 24,
 }
 
-
 SAML_AUTHN_SIGN_ALG = saml2.xmldsig.SIG_RSA_SHA256
 SAML_AUTHN_DIGEST_ALG = saml2.xmldsig.DIGEST_SHA256
+
+SAML_IDP_SPCONFIG = {
+    'http://localhost:8000/saml2/metadata/': {
+        'processor': 'djangosaml2idp.processors.BaseProcessor',
+        'nameid_field': 'staffID',
+        'sign_response': False,
+        'sign_assertion': False,
+        'attribute_mapping': {
+            # DJANGO: SAML
+            'email': 'email',
+            'first_name': 'first_name',
+            'last_name': 'last_name',
+            'is_staff': 'is_staff',
+            'is_superuser': 'is_superuser',
+            'callable_to_get_id': 'calculate_id',  # assuming <user_instance>.calculate_id() is a method
+        }
+    },
+    # ...
+    # config of additional Service Providers
+    # ...
+}
